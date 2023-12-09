@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html lang="uk" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:insert="fragments/basicFragments :: headFragment"></head>
+
+<link rel="stylesheet" href="/static/css/formGeneralStyle.css">
+
+<style>
+    .link-container a {
+        text-decoration: none;
+    }
+
+    .link-container a:hover {
+        color: #5a5a5a;
+    }
+
+    #pageTitle {
+        position: relative;
+        font-size: 22px;
+    }
+
+    #pageTitle:after {
+        position: absolute;
+        content: '';
+        height: 2px;
+        bottom: -4px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        width: 150px;
+        background: black;
+    }
+</style>
+
+<body>
+
+<header th:insert="fragments/basicFragments :: navbar"></header>
+
+<div class="container mt-5 mb-4">
+    <div id="registerContainer" class="m-auto" style="width: 500px;">
+        <h5 id="pageTitle" class="text-center mb-5">Реєстрація</h5>
+
+        <form id="registerForm" action="/registration" method="post">
+            <div class="form-group row">
+                <div class="col" style="margin-bottom: 30px">
+                    <label for="firstNameRegister">Введіть своє ім'я:</label>
+                    <th:block th:if="${firstNameError}">
+                        <input id="firstNameRegister" type="text" name="firstName"
+                               th:value="${user} ? ${user.firstName}"
+                               class="form-control is-invalid position-relative"
+                               placeholder="Ім'я"/>
+                        <div id="firstNameErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content" th:text="${firstNameError}"></div>
+                    </th:block>
+                    <th:block th:unless="${firstNameError}">
+                        <input id="firstNameRegister" type="text" name="firstName"
+                               th:value="${user} ? ${user.firstName}"
+                               class="form-control position-relative"
+                               placeholder="Ім'я"/>
+                        <div id="firstNameErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col" style="margin-bottom: 30px">
+                    <label for="lastNameRegister">Введіть своє прізвище:</label>
+                    <th:block th:if="${lastNameError}">
+                        <input id="lastNameRegister" type="text" name="lastName"
+                               th:value="${user} ? ${user.lastName}"
+                               class="form-control is-invalid position-relative"
+                               placeholder="Прізвище"/>
+                        <div id="lastNameErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content" th:text="${lastNameError}"></div>
+                    </th:block>
+                    <th:block th:unless="${lastNameError}">
+                        <input id="lastNameRegister" type="text" name="lastName"
+                               th:value="${user} ? ${user.lastName}"
+                               class="form-control position-relative"
+                               placeholder="Прізвище"/>
+                        <div id="lastNameErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col" style="margin-bottom: 30px">
+                    <label for="usernameRegister">Введіть придуманий логін:</label>
+                    <th:block th:if="${usernameError}">
+                        <input id="usernameRegister" type="text" name="username"
+                               class="form-control is-invalid position-relative"
+                               th:value="${user} ? ${user.username}"
+                               placeholder="Логін"/>
+                        <div id="usernameErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"
+                             th:text="${usernameError}"></div>
+                    </th:block>
+                    <th:block th:unless="${usernameError}">
+                        <input id="usernameRegister" type="text" name="username"
+                               class="form-control position-relative"
+                               th:value="${user} ? ${user}"
+                               placeholder="Логін"/>
+                        <div id="usernameErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col" style="margin-bottom: 30px">
+                    <label for="passwordRegister">Введіть придуманий пароль:</label>
+                    <th:block th:if="${passwordError}">
+                        <input id="passwordRegister" type="password" name="password"
+                               class="form-control is-invalid position-relative"
+                               placeholder="Пароль"/>
+                        <div id="passwordErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content" th:text="${passwordError}"></div>
+                    </th:block>
+                    <th:block th:unless="${passwordError}">
+                        <input id="passwordRegister" type="password" name="password"
+                               class="form-control position-relative"
+                               placeholder="Пароль"/>
+                        <div id="passwordErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col" style="margin-bottom: 30px">
+                    <label for="password2Register">Введіть підтвердження паролю:</label>
+                    <th:block th:if="${password2Error}">
+                        <input id="password2Register" type="password" name="password2"
+                               class="form-control is-invalid position-relative"
+                               placeholder="Підтвердження паролю"/>
+                        <div id="password2ErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content" th:text="${password2Error}"></div>
+                    </th:block>
+                    <th:block th:unless="${password2Error}">
+                        <input id="password2Register" type="password" name="password2"
+                               class="form-control position-relative"
+                               placeholder="Підтвердження паролю"/>
+                        <div id="password2ErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col" style="margin-bottom: 30px">
+                    <label for="emailRegister">Введіть власну електронну пошту:</label>
+                    <th:block th:if="${emailError}">
+                        <input id="emailRegister" type="email" name="email" th:value="${user} ? ${user.email}"
+                               class="form-control is-invalid position-relative"
+                               placeholder="Електронна пошта"/>
+                        <div id="emailErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"
+                             th:text="${emailError}"></div>
+                    </th:block>
+                    <th:block th:unless="${emailError}">
+                        <input id="emailRegister" type="email" name="email" th:value="${user} ? ${user.email}"
+                               class="form-control position-relative"
+                               placeholder="Електронна пошта"/>
+                        <div id="emailErrorRegister" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </th:block>
+                </div>
+            </div>
+
+            <div class="text-center position-relative">
+                <div id="recaptcha" class="g-recaptcha"
+                     data-sitekey="6Lekfc8fAAAAALA4S3glskj4yfT0JXfOiiiMGGFf"
+                     data-callback="verifyCaptcha"
+                     style="display: inline-block;"></div>
+                <div id="recaptchaError"></div>
+            </div>
+
+            <div id="registerButtonContainer" class="text-center">
+                <button class="btn btn-dark" style="margin-top: 20px" type="submit">Зареєструватися</button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            </div>
+        </form>
+
+        <div class="mt-3 text-center link-container">
+                <a class="link-dark" href="/login">Авторизуватися</a>
+        </div>
+    </div>
+</div>
+<script src="/static/js/validationRegister.js"></script>
+</body>
+</html>

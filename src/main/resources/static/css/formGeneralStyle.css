@@ -1,0 +1,8 @@
+#recaptchaError {
+    color: #dc3545;
+    font-size: .875em;
+    position: absolute;
+    left: 50%;
+    bottom: -15px;
+    transform: translateX(-50%);
+}

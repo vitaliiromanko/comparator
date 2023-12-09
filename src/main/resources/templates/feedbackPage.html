@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head th:insert="fragments/basicFragments :: headFragment"></head>
+
+<link rel="stylesheet" href="/static/css/formGeneralStyle.css">
+
+<style>
+    #pageTitle {
+        position: relative;
+        font-size: 22px;
+    }
+
+    #pageTitle:after {
+        position: absolute;
+        content: '';
+        height: 2px;
+        bottom: -4px;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        width: 230px;
+        background: black;
+    }
+</style>
+
+<body>
+<header th:insert="fragments/basicFragments :: navbar"></header>
+
+<div class="container mt-5 mb-4">
+    <div id="sendToUsContainer" class="m-auto" style="width: 700px;">
+        <h5 id="pageTitle" class="text-center mb-5">Залишіть свій відгук</h5>
+
+        <th:block th:if="${message != ''}">
+            <div th:class="'alert alert-' + ${messageType} + ' text-center'" role="alert" th:text="${message}"></div>
+        </th:block>
+
+
+        <form id="sendToUsForm" class="mb-4 mt-4" action="/feedback" method="post">
+            <div>
+                <div class="form-group row">
+                    <div class="col" style="margin-bottom: 30px">
+                        <input id="firstName" type="text" name="firstName"
+                               class="form-control position-relative"
+                               placeholder="Ім'я"/>
+                        <div id="firstNameError" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </div>
+                    <div class="col" style="margin-bottom: 30px">
+                        <input id="lastName" type="text" name="lastName"
+                               class="form-control position-relative"
+                               placeholder="Прізвище"/>
+                        <div id="lastNameError" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col" style="margin-bottom: 30px">
+                        <textarea id="sendMessageBody" name="sendMessageBody"
+                                  aria-label="Введіть ваше повідомлення"
+                                  class="form-control textarea is-editable position-relative"
+                                  placeholder="Введіть ваше повідомлення"
+                                  rows="10"></textarea>
+                        <div id="sendMessageBodyError" class="invalid-feedback position-absolute"
+                             style="width: fit-content"></div>
+                    </div>
+                </div>
+
+                <div class="text-center position-relative">
+                    <div id="recaptcha" class="g-recaptcha"
+                         data-sitekey="6Lekfc8fAAAAALA4S3glskj4yfT0JXfOiiiMGGFf"
+                         data-callback="verifyCaptcha"
+                         style="display: inline-block;"></div>
+                    <div id="recaptchaError"></div>
+                </div>
+            </div>
+
+            <div id="sendToUsButtonContainer" class="text-center">
+                <button class="btn btn-dark" style="margin-top: 20px" type="submit">Надіслати</button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/static/js/validationSendToUsForm.js"></script>
+</body>
+</html>

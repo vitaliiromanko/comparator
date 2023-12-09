@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head th:insert="fragments/basicFragments :: headFragment"></head>
+<body>
+
+<header th:insert="fragments/basicFragments :: navbar"></header>
+
+
+<link rel="stylesheet" href="/css/dataTableStyle.css">
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+<script src="/static/js/historyTextsDataTable.js"></script>
+
+
+<div class="container mt-5 mb-4">
+    <div class="d-flex justify-content-between vertical-center mb-4">
+        <button type="button" class="btn btn-dark" onclick="window.location.href='/main/texts-comparison'">
+            Повернутися
+        </button>
+        <h5 class="my-auto">Історія порівняннь текстів</h5>
+    </div>
+
+    <th:block th:if="${message != ''}">
+        <div th:class="'alert alert-' + ${messageType} + ' text-center'" role="alert" th:text="${message}"></div>
+    </th:block>
+
+    <th:block th:if="${not #lists.isEmpty(historyList)}">
+        <div class="mt-2">
+            <table id="historyTextsList" class="table table-striped" style="width:100%">
+                <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Назва першого тексту</th>
+                    <th>Назва другого тексту</th>
+                    <th>Довжина шингла</th>
+                    <th>Результат</th>
+                    <th>Дата</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>№</th>
+                    <th>Назва першого тексту</th>
+                    <th>Назва другого тексту</th>
+                    <th>Довжина шингла</th>
+                    <th>Результат</th>
+                    <th>Дата</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </tfoot>
+                <tbody>
+                <tr th:each="history, i : ${historyList}">
+                    <td th:text="${i.index + 1}"></td>
+                    <td th:text="${history.titleFirstText}"></td>
+                    <td th:text="${history.titleSecondText}"></td>
+                    <td th:text="${history.shingleLength}"></td>
+                    <td th:text="${history.comparisonResult} + '%'"></td>
+                    <td th:text="${#temporals.format(history.comparisonDate, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    <td>
+                        <form th:id="'sendEmailForm' + ${history.id}" th:action="@{'/main' + '/texts/' + ${history.id} + '/sendEmail'}" method="post">
+                            <a class="btn btn-dark" th:attr="href='javascript:submitSendEmailForm(\'sendEmailForm' + ${history.id}  + '\')'">Надіслати</a>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form th:id="'downloadFileForm' + ${history.id}" th:action="@{'/main' + '/texts/' + ${history.id} + '/downloadFile'}" method="post">
+                            <a class="btn btn-dark" th:attr="href='javascript:submitDownloadFileForm(\'downloadFileForm' + ${history.id}  + '\')'">Завантажити</a>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+
+    <th:block th:unless="${not #lists.isEmpty(historyList)}">
+        <div class="d-flex justify-content-center mb-3" style="margin-top:80px;">
+            <p>Ви ще не здійснювали порівнянь.</p>
+        </div>
+    </th:block>
+</div>
+
+</body>
+</html>
